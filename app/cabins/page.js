@@ -29,8 +29,8 @@ export default async function Page({ searchParams }) {
       </div>
       <Suspense fallback={<Loading />} key={filter}>
         <CabinList filter={filter} />
-        <ReservationReminder />
       </Suspense>
+      <ReservationReminder />
     </div>
   );
 }
