@@ -2,9 +2,9 @@
 
 import { revalidatePath } from "next/cache";
 import { auth, signIn, signOut } from "./auth";
-import { supabase } from "./supabase";
 import { getBookings } from "./data-service";
 import { redirect } from "next/dist/server/api-utils";
+import supabase from "./supabase";
 
 export async function signInAction() {
   await signIn("google", { redirectTo: "/account" });
