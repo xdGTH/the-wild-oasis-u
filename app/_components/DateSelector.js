@@ -10,7 +10,7 @@ import { DayPicker } from "react-day-picker"; //this needs to be client componen
 import "react-day-picker/dist/style.css";
 import { useReservation } from "./ReservationContext";
 
-function isAlreadyBooked(range, datesArr) {
+function isAlreadyBooked(range = { from: undefined, to: undefined }, datesArr) {
   return (
     range.from &&
     range.to &&
@@ -28,7 +28,11 @@ function DateSelector({ settings, cabin, bookedDates }) {
   // const range = { from: null, to: null };
 
   const { regularPrice, discount } = cabin;
-  const numNights = differenceInDays(displayRange.to, displayRange.from);
+  const numNights =
+    displayRange?.from && displayRange?.to
+      ? differenceInDays(displayRange.to, displayRange.from)
+      : 0;
+
   const cabinPrice = numNights * (regularPrice - discount);
 
   // SETTINGS
@@ -45,7 +49,7 @@ function DateSelector({ settings, cabin, bookedDates }) {
         min={minBookingLength + 1}
         max={maxBookingLength}
         startMonth={new Date()}
-        endMonth={new Date(new DataTransfer().getFullYear() + 5, 11)} //% years from today's data to december (0-11)
+        endMonth={new Date(new Date().getFullYear() + 5, 11)} //% years from today's data to december (0-11)
         // toYear={new Date().getFullYear() + 5}
         captionLayout="dropdown"
         numberOfMonths={2}
@@ -83,7 +87,7 @@ function DateSelector({ settings, cabin, bookedDates }) {
           ) : null}
         </div>
 
-        {range.from || range.to ? (
+        {range?.from || range?.to ? (
           <button
             className="border border-primary-800 py-2 px-4 text-sm font-semibold"
             onClick={resetRange}
